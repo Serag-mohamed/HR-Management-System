@@ -1,0 +1,162 @@
+﻿@model HRManagementSystem.ViewModels.PayrollViewModel
+
+@{
+    ViewData["Title"] = "Add New Payroll";
+
+    var employees = ViewBag.Employees as List<HRManagementSystem.DTO.EmployeeToAddPayrollDto>
+                         ?? new List<HRManagementSystem.DTO.EmployeeToAddPayrollDto>();
+
+    var selectListEmpItems = new SelectList(employees, "Id", "Name", Model?.EmployeeId);
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header bg-primary text-white text-center">
+                    <h1 class="h3 mb-0"><i class="fas fa-plus-circle me-2"></i> Add New Payroll Record</h1>
+                    <p class="mb-0 small">Please fill in the financial details for the selected employee and month.</p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form asp-action="Add" method="post">
+
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div asp-validation-summary="All" class="alert alert-danger mb-3"></div>
+                        }
+
+                        <div class="row">
+
+                            <div class="col-md-6 border-end">
+                                <h5 class="mb-3 text-primary"><i class="fas fa-info-circle me-2"></i> Core Details</h5>
+
+                                <div class="mb-4">
+                                    <label asp-for="EmployeeId" class="form-label fw-bold"><i class="fas fa-user me-2"></i> Employee</label>
+
+                                    <select asp-for="EmployeeId"
+                                            class="form-select form-select-lg"
+                                            asp-items="selectListEmpItems"
+                                            id="EmployeeId">
+                                        {{-- 👈 أضفنا ID للوصول من AJAX --}}
+
+                                        <option value="">-- Select Employee --</option>
+                                    </select>
+
+                                    <span asp-validation-for="EmployeeId" class="text-danger small mt-1"></span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label asp-for="PayrollMonth" class="form-label fw-bold"><i class="fas fa-calendar-alt me-2"></i> Payroll Month</label>
+
+                                    <input asp-for="PayrollMonth" class="form-control form-control-lg" type="month" />
+
+                                    <span asp-validation-for="PayrollMonth" class="text-danger small mt-1"></span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label asp-for="BasicSalary" class="form-label fw-bold"><i class="fas fa-dollar-sign me-2"></i> Basic Salary</label>
+
+                                    <input asp-for="BasicSalary"
+                                           id="BasicSalary"
+                                           class="form-control form-control-lg bg-light fw-bold"
+                                           type="number"
+                                           step="0.01"
+                                           readonly />
+
+                                    <span asp-validation-for="BasicSalary" class="text-danger small mt-1"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 ps-md-4">
+                                <h5 class="mb-3 text-primary"><i class="fas fa-calculator me-2"></i> Financial Adjustments</h5>
+
+                                <div class="mb-4">
+                                    <label asp-for="Bonuses" class="form-label fw-bold text-success"><i class="fas fa-hand-holding-usd me-2"></i> Bonuses / Additions</label>
+
+                                    <input asp-for="Bonuses" class="form-control form-control-lg" type="number" step="0.01" value="@(Model?.Bonuses.ToString() ?? "0.00")" />
+
+                                    <span asp-validation-for="Bonuses" class="text-danger small mt-1"></span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label asp-for="Deductions" class="form-label fw-bold text-danger"><i class="fas fa-minus-circle me-2"></i> Deductions</label>
+
+                                    <input asp-for="Deductions" class="form-control form-control-lg" type="number" step="0.01" value="@(Model?.Deductions.ToString() ?? "0.00")" />
+
+                                    <span asp-validation-for="Deductions" class="text-danger small mt-1"></span>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <hr class="mt-4 mb-3" />
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold">
+                                <i class="fas fa-save me-2"></i> Create Payroll Record
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a asp-action="Index" class="btn btn-link text-muted">
+                            <i class="fas fa-arrow-left me-1"></i> Back to Payroll Management
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            const empSelect = $('#EmployeeId');
+            const salaryInput = $('#BasicSalary');
+
+            function loadBasicSalary() {
+                const employeeId = empSelect.val();
+
+                if (employeeId) {
+                    $.ajax({
+                        url: '@Url.Action("GetBasicSalary", "Payroll")',
+                        type: 'GET',
+                        data: { employeeId: employeeId },
+                        success: function (data) {
+                            if (data.salary !== undefined) {
+                                salaryInput.val(data.salary.toFixed(2));
+                            } else {
+                                salaryInput.val("0.00");
+                            }
+                        },
+                        error: function (error) {
+                            console.error("Error fetching basic salary:", error);
+                            salaryInput.val("0.00");
+                            alert("Failed to load basic salary. Check the console for details.");
+                        }
+                    });
+                } else {
+                    salaryInput.val("0.00");
+                }
+            }
+
+            empSelect.on('change', loadBasicSalary);
+
+            if (empSelect.val()) {
+                loadBasicSalary();
+            }
+        });
+    </script>
+}

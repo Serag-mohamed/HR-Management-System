@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HR Management System</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+</head>
+
+<body>
+    <div class="main">
+
+        <partial name="LayoutParts/_Sidebar" />
+
+        <div id="content-wrapper">
+
+            <div id="topbar" class="d-flex align-items-center justify-content-between bg-white shadow-sm py-3 px-3 border-bottom">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none d-flex align-items-center">
+                    <h5 class="mb-0 text-dark fw-bold">HR Management System</h5>
+                </a>
+                <div class="d-flex align-items-center ms-auto">
+                    <span class="text-secondary">
+                        <i class="fas fa-user-circle me-1"></i> Hello, @User.FindFirst("DisplayName")?.Value!
+                    </span>
+                </div>
+            </div>
+
+            <div class="container mt-4 mb-5">
+                @RenderBody()
+            </div>
+
+            <partial name="LayoutParts/_Footer" />
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/layout.js" asp-append-version="true"></script> 
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

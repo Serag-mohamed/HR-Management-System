@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Dot-Net-Development-Courses\\MVCFirstProject\\HRManagementSystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2ECC6E2F-BB90-4F1D-83AE-ED46828BB203}|HRManagementSystem\\HRManagementSystem.csproj|d:\\dot-net-development-courses\\mvcfirstproject\\hrmanagementsystem\\hrmanagementsystem\\views\\leave\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2ECC6E2F-BB90-4F1D-83AE-ED46828BB203}|HRManagementSystem\\HRManagementSystem.csproj|solutionrelative:hrmanagementsystem\\views\\leave\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Add.cshtml",
+              "DocumentMoniker": "D:\\Dot-Net-Development-Courses\\MVCFirstProject\\HRManagementSystem\\HRManagementSystem\\Views\\Leave\\Add.cshtml",
+              "RelativeDocumentMoniker": "HRManagementSystem\\Views\\Leave\\Add.cshtml",
+              "ToolTip": "D:\\Dot-Net-Development-Courses\\MVCFirstProject\\HRManagementSystem\\HRManagementSystem\\Views\\Leave\\Add.cshtml",
+              "RelativeToolTip": "HRManagementSystem\\Views\\Leave\\Add.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-03T10:50:14.392Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

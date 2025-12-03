@@ -1,0 +1,105 @@
+﻿@using HRManagementSystem.DTO
+@model List<PayrollDetailsDto>
+
+@{
+    ViewData["Title"] = "My Payroll History";
+
+    decimal totalNet = Model.Sum(p => p.NetSalary);
+    decimal totalBonuses = Model.Sum(p => p.Bonuses);
+    decimal totalDeductions = Model.Sum(p => p.Deductions);
+}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4 text-primary fw-bold">
+        <i class="fas fa-file-invoice-dollar me-2"></i> My Payroll History
+    </h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center shadow-sm">
+            <i class="fas fa-info-circle me-2"></i> No payroll records available for your account.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light fw-bold text-muted">
+                <i class="fas fa-chart-line me-2"></i> Financial Summary
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+
+                    <div class="col-md-4 border-end">
+                        <h5 class="text-success mb-1">@totalNet.ToString("C2", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</h5>
+                        <small class="text-muted">Total Net Paid</small>
+                    </div>
+
+                    <div class="col-md-4 border-end">
+                        <h5 class="text-primary mb-1">@totalBonuses.ToString("C2", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</h5>
+                        <small class="text-muted">Total Bonuses Earned</small>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h5 class="text-danger mb-1">@totalDeductions.ToString("C2", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</h5>
+                        <small class="text-muted">Total Deductions Applied</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-lg border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover mb-0 text-center align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th><i class="fas fa-calendar-alt me-1"></i> Month</th>
+                                <th><i class="fas fa-wallet me-1"></i> Basic Salary</th>
+                                <th><i class="fas fa-gift me-1"></i> Bonuses</th>
+                                <th><i class="fas fa-minus-circle me-1"></i> Deductions</th>
+                                <th><i class="fas fa-money-check-alt me-1"></i> Net Salary</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-secondary">
+                                            @item.PayrollMonth.ToString("MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <span class="text-dark">
+                                            @item.BasicSalary.ToString("C2", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <span class="fw-bold text-success">
+                                            @item.Bonuses.ToString("C2", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <span class="fw-bold text-danger">
+                                            @item.Deductions.ToString("C2", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+                                        </span>
+                                    </td>
+
+                                    <td class="fw-bolder text-primary">
+                                        @item.NetSalary.ToString("C2", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

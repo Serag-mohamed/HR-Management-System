@@ -1,0 +1,149 @@
+﻿@using HRManagementSystem.DTO
+@model EmployeeDetailsDto
+
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+<div class="container mt-5">
+
+    <h1 class="mb-4 text-primary">
+        <i class="fas fa-id-card me-2"></i> Details for @Model.Name
+    </h1>
+
+    <hr class="mb-5" />
+    @if (User.IsInRole("Admin") || User.IsInRole("HR"))
+    {
+        <div class="mb-4 d-flex justify-content-end">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-2">
+                <i class="fas fa-edit me-1"></i> Edit Employee
+            </a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                <i class="fas fa-trash-alt me-1"></i> Delete Employee
+            </a>
+        </div>
+    }
+
+
+    <div class="card shadow-lg mb-5 border-0">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">
+                <i class="fas fa-user me-2"></i> Personal & Contact Information
+            </h4>
+        </div>
+        <div class="card-body p-4">
+            <div class="row">
+
+                <div class="col-md-6 border-end">
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-tag me-2 text-secondary"></i> Employee ID:
+                        <span class="ms-2 fw-normal text-muted">@Model.Id</span>
+                    </p>
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-signature me-2 text-secondary"></i> Full Name:
+                        <span class="ms-2 fw-normal text-dark">@Model.Name</span>
+                    </p>
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-envelope me-2 text-secondary"></i> Email:
+                        <span class="ms-2 fw-normal">@Model.Email</span>
+                    </p>
+                </div>
+
+                <div class="col-md-6 ps-md-4">
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-phone me-2 text-secondary"></i> Phone:
+                        <span class="ms-2 fw-normal">@Model.Phone</span>
+                    </p>
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-map-marker-alt me-2 text-secondary"></i> Address:
+                        <span class="ms-2 fw-normal">@Model.Address</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg mb-5 border-0">
+        <div class="card-header bg-secondary text-white">
+            <h4 class="mb-0">
+                <i class="fas fa-briefcase me-2"></i> Employment & Management Details
+            </h4>
+        </div>
+        <div class="card-body p-4">
+            <div class="row">
+
+                <div class="col-md-6 border-end">
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-dollar-sign me-2 text-success"></i> Basic Salary:
+                        <span class="ms-2 fw-normal text-success">@Model.BasicSalary.ToString("C0")</span>
+                    </p>
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-calendar-alt me-2 text-secondary"></i> Hire Date:
+                        <span class="ms-2 fw-normal">@Model.HireDate.ToString("yyyy-MM-dd")</span>
+                    </p>
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-calendar-plus me-2 text-secondary"></i> Record Created:
+                        <span class="ms-2 fw-normal">@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                    </p>
+                </div>
+
+                <div class="col-md-6 ps-md-4">
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-user-tie me-2 text-secondary"></i> Manager:
+                        <span class="ms-2 fw-normal text-dark">
+                            @if (!string.IsNullOrEmpty(Model.ManagerName))
+                            {
+                                @Model.ManagerName
+                            }
+                            else
+                            {
+                                <span class="text-muted">N/A</span>
+                            }
+                        </span>
+                    </p>
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-building me-2 text-secondary"></i> Department:
+                        <span class="ms-2 fw-normal text-dark">@Model.DepartmentName</span>
+                    </p>
+                    <p class="card-text fw-bold">
+                        <i class="fas fa-chalkboard-teacher me-2 text-secondary"></i> Position:
+                        <span class="ms-2 fw-normal text-primary">@Model.PositionName</span>
+                    </p>
+                </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="mt-4">
+                <h6 class="fw-bold text-dark">Position Description:</h6>
+                <blockquote class="blockquote bg-light p-3 border-start border-3 border-primary rounded">
+                    <p class="mb-0 small">
+                        @if (!string.IsNullOrEmpty(Model.PositionDescription))
+                        {
+                            @Model.PositionDescription
+                        }
+                        else
+                        {
+                            <span class="text-muted">No description provided for this position.</span>
+                        }
+                    </p>
+                </blockquote>
+            </div>
+
+        </div>
+    </div>
+
+
+    <hr class="mt-5" />
+
+    @if (User.IsInRole("Admin") || User.IsInRole("HR"))
+    {
+        <div class="text-center mb-4">
+            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                <i class="fas fa-arrow-left me-2"></i> Back to Employees List
+            </a>
+        </div>
+    }
+
+
+</div>

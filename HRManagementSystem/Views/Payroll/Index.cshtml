@@ -1,0 +1,107 @@
+﻿@using HRManagementSystem.DTO
+@model List<HRManagementSystem.DTO.PayrollManagementGroupsDto>
+
+@{
+    ViewData["Title"] = "Payroll Management";
+}
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <h2 class="text-primary fw-bold">
+            <i class="fas fa-file-invoice-dollar me-2"></i> Payroll Management
+        </h2>
+        @if (User.IsInRole("HR"))
+        {
+             <a asp-action="Add" class="btn btn-success btn-lg shadow-sm">
+                <i class="fas fa-plus-circle me-2"></i> Add New Payroll
+            </a>
+        }
+       
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center shadow-sm">
+            <i class="fas fa-info-circle me-2"></i> No payroll records have been generated yet.
+        </div>
+    }
+    else
+    {
+        <div class="accordion shadow-lg" id="payrollAccordion">
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var group = Model[i];
+                string collapseId = $"collapse_{i}";
+                string headerId = $"heading_{i}";
+
+                string monthName = group.Month.ToString("MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="@headerId">
+                        <button class="accordion-button @(i == 0 ? "" : "collapsed")"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#@collapseId"
+                                aria-expanded="@(i == 0 ? "true" : "false")"
+                                aria-controls="@collapseId">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            <span class="fw-bold">@monthName</span>
+                            <span class="badge bg-primary ms-3">@group.Payrolls.Count Records</span>
+                        </button>
+                    </h2>
+
+                    <div id="@collapseId"
+                         class="accordion-collapse collapse @(i == 0 ? "show" : "")"
+                         aria-labelledby="@headerId"
+                         data-bs-parent="#payrollAccordion">
+
+                        <div class="accordion-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover mb-0 align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th><i class="fas fa-user me-1"></i> Employee Name</th>
+                                            <th><i class="fas fa-briefcase me-1"></i> Position</th>
+                                            <th class="text-end"><i class="fas fa-wallet me-1"></i> Basic Salary</th>
+                                            <th class="text-end"><i class="fas fa-gift me-1"></i> Bonuses</th>
+                                            <th class="text-end"><i class="fas fa-minus-circle me-1"></i> Deductions</th>
+                                            <th class="text-end text-primary"><i class="fas fa-money-check-alt me-1"></i> Net Salary</th>
+                                            <th class="text-center"><i class="fas fa-cogs me-1"></i> Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var payroll in group.Payrolls)
+                                        {
+                                            <tr>
+                                                <td>@payroll.EmployeeName</td>
+                                                <td class="small text-muted">@payroll.PositionName</td>
+
+                                                <td class="text-end">@payroll.BasicSalary.ToString("C0")</td>
+
+                                                <td class="text-end text-success fw-bold">@payroll.Bonuses.ToString("C0")</td>
+
+                                                <td class="text-end text-danger fw-bold">@payroll.Deductions.ToString("C0")</td>
+
+                                                <td class="text-end fw-bolder text-primary">@payroll.NetSalary.ToString("C0")</td>
+
+                                                <td class="text-center">
+                                                    <a asp-action="Edit" asp-route-id="@payroll.Id" class="btn btn-sm btn-info text-white" title="Edit Payroll Record">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

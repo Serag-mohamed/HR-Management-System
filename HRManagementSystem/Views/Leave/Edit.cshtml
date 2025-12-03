@@ -1,0 +1,81 @@
+﻿@model HRManagementSystem.ViewModels.LeaveViewModel
+
+@{
+    ViewData["Title"] = "Edit Leave Request";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header bg-primary text-white text-center">
+                    <h1 class="h3 mb-0"><i class="fas fa-edit me-2"></i> Edit Leave Request</h1>
+                    <p class="mb-0 small">Adjust the details for the pending request.</p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form asp-action="Edit" method="post">
+
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div asp-validation-summary="All" class="alert alert-danger mb-3"></div>
+                        }
+
+                        <div class="mb-4">
+                            <label asp-for="LeaveType" class="form-label fw-bold"><i class="fas fa-list-alt me-2"></i> Leave Type</label>
+
+                            <select asp-for="LeaveType"
+                                    class="form-select form-select-lg"
+                                    asp-items="Html.GetEnumSelectList<HRManagementSystem.Enums.LeaveType>()">
+
+                                <option value="">-- Select Leave Type --</option>
+                            </select>
+
+                            <span asp-validation-for="LeaveType" class="text-danger small mt-1"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="StartDate" class="form-label fw-bold"><i class="fas fa-calendar-alt me-2"></i> Start Date</label>
+
+                            <input asp-for="StartDate" class="form-control form-control-lg" type="date" />
+
+                            <span asp-validation-for="StartDate" class="text-danger small mt-1"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="EndDate" class="form-label fw-bold"><i class="fas fa-calendar-times me-2"></i> End Date</label>
+
+                            <input asp-for="EndDate" class="form-control form-control-lg" type="date" />
+
+                            <span asp-validation-for="EndDate" class="text-danger small mt-1"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold">
+                                <i class="fas fa-save me-2"></i> Save Changes
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a asp-action="MyLeaves" class="btn btn-link text-muted">
+                            <i class="fas fa-arrow-left me-1"></i> Back to Leave History
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

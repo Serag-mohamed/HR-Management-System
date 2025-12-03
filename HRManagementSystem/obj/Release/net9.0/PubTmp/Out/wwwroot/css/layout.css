@@ -1,0 +1,138 @@
+﻿.main {
+    display: flex;
+    margin: 0;
+    min-height: 100vh;
+}
+
+#sidebar {
+    width: 250px;
+    background: #1e1e1e;
+    color: white;
+    height: 100vh;
+    overflow-y: auto;
+    transition: width 0.3s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+    #sidebar.collapsed {
+        width: 70px;
+    }
+
+    #sidebar .nav-link {
+        color: #ccc;
+        padding: 12px 15px;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s;
+        position: relative;
+        text-decoration: none;
+    }
+
+        #sidebar .nav-link.active {
+            background: #333;
+            color: #fff;
+            border-left: 5px solid #8a172c;
+            padding-left: 10px;
+        }
+
+    #sidebar.collapsed .nav-link.active {
+        border-left: none;
+        background: #333;
+        color: #fff;
+        border-left: 5px solid #8a172c;
+    }
+
+
+    #sidebar .nav-link:hover {
+        background: #333;
+        color: #fff;
+    }
+
+    #sidebar .icon {
+        width: 30px;
+        text-align: center;
+    }
+
+    #sidebar .sidebar-header {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+    }
+
+.sidebar-text {
+    transition: opacity 0.3s, width 0.3s, margin 0.3s, padding 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+#sidebar.collapsed .sidebar-text {
+    opacity: 0;
+    width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+#sidebar-toggle {
+    cursor: pointer;
+    font-size: 22px;
+    color: #fff;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+    transition: all 0.3s;
+}
+
+#sidebar.collapsed #sidebar-toggle {
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+}
+
+#content-wrapper {
+    margin-left: 250px;
+    transition: margin-left 0.3s;
+    padding-top: 50px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f6f6f6;
+    overflow-y: auto;
+}
+
+#sidebar.collapsed + #content-wrapper {
+    margin-left: 70px;
+}
+
+#topbar {
+    position: fixed;
+    top: 0;
+    z-index: 1020;
+    width: calc(100% - 250px);
+    transition: width 0.3s, margin-left 0.3s;
+    height: 50px;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1px solid #ddd;
+    flex-shrink: 0;
+}
+
+#sidebar.collapsed + #content-wrapper > #topbar {
+    width: calc(100% - 70px);
+}
+
+#content-wrapper .container {
+    flex: 1;
+}
+
+footer {
+    flex-shrink: 0;
+    padding: 1rem 0;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}

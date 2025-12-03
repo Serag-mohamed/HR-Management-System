@@ -1,0 +1,150 @@
+﻿@using HRManagementSystem.Helpers
+@{
+	var EmployeeId = User.FindFirst("EmployeeId")?.Value;
+}
+<div id="sidebar">
+        <i id="sidebar-toggle" class="fa-solid fa-bars"></i>
+
+        <div class="sidebar-header">
+            <span class="fw-bold sidebar-text">HR System</span>
+        </div>
+
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Home")" asp-controller="Home" asp-action="Index">
+                    <i class="fa-solid fa-house icon"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+            </li>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+
+                if (User.IsInRole("Admin") || User.IsInRole("HR"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Employee")" asp-controller="Employee" asp-action="Index">
+                            <i class="fa-solid fa-users icon"></i>
+                            <span class="sidebar-text">Employees Management</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Department")" asp-controller="Department" asp-action="Index">
+                            <i class="fa-solid fa-building icon"></i>
+                            <span class="sidebar-text">Departments</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Position")" asp-controller="Position" asp-action="Index">
+                            <i class="fa-solid fa-id-badge icon"></i>
+                            <span class="sidebar-text">Positions</span>
+                        </a>
+                    </li>
+                }
+
+                if (User.IsInRole("Manager"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Employee", "Team")" asp-controller="Employee" asp-action="Team">
+                            <i class="fa-solid fa-user-group icon"></i>
+                            <span class="sidebar-text">My Team Management</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Leave", "Approve")" asp-controller="Leave" asp-action="Approve">
+                            <i class="fa-solid fa-user-clock icon"></i>
+                            <span class="sidebar-text">Approve Leaves</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Attendance", "TeamAttendance")" asp-controller="Attendance" asp-action="TeamAttendance">
+                            <i class="fa-solid fa-calendar-days icon"></i>
+                            <span class="sidebar-text">Team Attendance</span>
+                        </a>
+                    </li>
+                }
+
+                if (User.IsInRole("Admin") || User.IsInRole("HR"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Payroll")" asp-controller="Payroll" asp-action="Index">
+                            <i class="fa-solid fa-money-bill-wave icon"></i>
+                            <span class="sidebar-text">Payroll Management</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Attendance")" asp-controller="Attendance" asp-action="Index">
+                            <i class="fa-solid fa-calendar-check icon"></i>
+                            <span class="sidebar-text">Attendance Report</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Leave")" asp-controller="Leave" asp-action="Index">
+                            <i class="fa-solid fa-umbrella-beach icon"></i>
+                            <span class="sidebar-text">Leaves Report</span>
+                        </a>
+                    </li>
+                }
+
+                if (User.IsInRole("Employee") || User.IsInRole("Manager") || User.IsInRole("HR"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Employee", "Details")"
+                            asp-controller="Employee"
+                            asp-action="Details"
+                            asp-route-id="@EmployeeId">
+                            <i class="fa-solid fa-user icon"></i>
+                            <span class="sidebar-text">My Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Attendance", "MyAttendance")" asp-controller="Attendance" asp-action="MyAttendance">
+                            <i class="fa-solid fa-calendar-check icon"></i>
+                            <span class="sidebar-text">My Attendance</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Leave", "MyLeaves")" asp-controller="Leave" asp-action="MyLeaves">
+                            <i class="fa-solid fa-umbrella-beach icon"></i>
+                            <span class="sidebar-text">My Leaves</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Payroll", "MyPayroll")" asp-controller="Payroll" asp-action="MyPayroll">
+                            <i class="fa-solid fa-money-bill-wave icon"></i>
+                            <span class="sidebar-text">My Payroll</span>
+					    </a>
+                    </li>
+                    
+                    
+                }
+                
+                <li class="nav-item">
+                        <a class="nav-link @ActiveLinkHelper.IsActive(ViewContext, "Account", "ChangePassword")" asp-controller="Account" asp-action="ChangePassword">
+                            <i class="fa-solid fa-money-bill-wave icon"></i>
+                            <span class="sidebar-text">Change Password</span>
+                        </a>
+                </li>
+                
+                <li class="nav-item mt-3">
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-flex">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="nav-link btn btn-link text-danger flex-grow-1 text-start d-flex align-items-center">
+                            <i class="fa-solid fa-right-from-bracket icon me-2"></i>
+                            <span class="sidebar-text">Logout</span>
+                        </button>
+                    </form>
+                </li>
+
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-primary @ActiveLinkHelper.IsActive(ViewContext, "Account", "Login")" asp-controller="Account" asp-action="Login">
+                        <i class="fa-solid fa-right-to-bracket icon"></i>
+                        <span class="sidebar-text">Login</span>
+                    </a>
+                </li>
+            }
+        </ul>
+</div>

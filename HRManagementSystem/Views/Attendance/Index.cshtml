@@ -1,0 +1,96 @@
+﻿@using HRManagementSystem.DTO
+@model List<AttendanceGroupDto>
+
+<div class="container mt-4">
+
+    <h2 class="mb-4 text-primary">
+        <i class="fas fa-calendar-check"></i>
+        Attendance Report
+    </h2>
+
+    @foreach (var day in Model)
+    {
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    @day.Date.ToString("dddd, dd MMM yyyy")
+                </h5>
+            </div>
+
+            <div class="card-body p-0">
+
+                <table class="table table-striped mb-0 table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Employee</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Total Hours</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var record in day.Records)
+                        {
+                            <tr>
+                                <td>@record.EmployeeName</td>
+
+                                <td>
+                                    @if (record.CheckIn != null)
+                                    {
+                                        @record.CheckIn.ToString(@"hh\:mm")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">--</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (record.CheckOut.HasValue)
+                                    {
+                                        @record.CheckOut.Value.ToString(@"hh\:mm")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">--</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (record.TotalHours > 0)
+                                    {
+                                        <span>
+                                            @record.TotalHours.ToString("F1") Hour
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">0</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (record.Status == "Present")
+                                    {
+                                        <span class="badge bg-success">Present</span>
+                                    }
+                                    else if (record.Status == "Late")
+                                    {
+                                        <span class="badge bg-warning text-dark">Late</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Unknown</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    }
+</div>

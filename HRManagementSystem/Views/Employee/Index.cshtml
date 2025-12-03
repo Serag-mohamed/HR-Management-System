@@ -1,0 +1,118 @@
+﻿@model IEnumerable<HRManagementSystem.DTO.EmployeeListDto>
+
+@{
+    ViewData["Title"] = "Employees List";
+}
+
+<div class="container mt-5">
+
+    <h1 class="mb-4 text-primary">
+        <i class="fas fa-users me-2"></i> Employees Directory
+    </h1>
+
+    <hr />
+
+    <p class="mb-4">
+        <a asp-action="Add" asp-controller="Employee" class="btn btn-success">
+            <i class="fas fa-user-plus me-2"></i> Add New Employee
+        </a>
+    </p>
+
+    <div class="table-responsive shadow-lg d-none d-lg-block">
+        <table class="table table-striped table-hover table-bordered">
+
+            <thead class="thead-dark bg-dark text-white">
+                <tr>
+                    <th class="text-nowrap">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th class="text-nowrap">
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th class="text-nowrap">
+                        @Html.DisplayNameFor(model => model.PositionName)
+                    </th>
+                    <th class="text-nowrap">
+                        @Html.DisplayNameFor(model => model.HireDate)
+                    </th>
+                    <th class="text-center text-nowrap" style="width: 150px;">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var emp in Model)
+                {
+                    <tr>
+                        <td class="text-nowrap fw-bold">
+                            @Html.DisplayFor(modelItem => emp.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => emp.Email)
+                        </td>
+                        <td class="text-nowrap">
+                            @Html.DisplayFor(modelItem => emp.PositionName)
+                        </td>
+                        <td class="text-nowrap">
+                            @Html.DisplayFor(modelItem => emp.HireDate)
+                        </td>
+                        <td class="text-center text-nowrap">
+
+                            <a asp-action="Details" asp-controller="Employee" asp-route-id="@emp.Id" class="btn btn-sm btn-info text-white me-1" title="View Details">
+                                <i class="fas fa-file-alt"></i>
+                            </a>
+
+                            <a asp-action="Edit" asp-controller="Employee" asp-route-id="@emp.Id" class="btn btn-sm btn-primary me-1" title="Edit Employee">
+                                <i class="fas fa-pen-to-square"></i>
+                            </a>
+
+                            <a asp-action="Delete" asp-controller="Employee" asp-route-id="@emp.Id" class="btn btn-sm btn-danger" title="Delete Employee">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-view-list d-block d-lg-none">
+        @foreach (var emp in Model)
+        {
+            <div class="card shadow-sm mb-3 border-start border-primary border-4">
+                <div class="card-body">
+
+                    <h5 class="card-title text-primary">
+                        <i class="fas fa-user me-2"></i> @emp.Name
+                    </h5>
+                    <hr class="mt-1 mb-2" />
+
+                    <div class="mb-2 small">
+                        <strong><i class="fas fa-envelope me-1"></i> Email:</strong> @emp.Email
+                    </div>
+
+                    <div class="mb-2 small">
+                        <strong><i class="fas fa-briefcase me-1"></i> Position:</strong> @emp.PositionName
+                    </div>
+
+                    <div class="mb-2 small">
+                        <strong><i class="fas fa-calendar-alt me-1"></i> Hire Date:</strong> @emp.HireDate
+                    </div>
+
+                    <div class="d-flex justify-content-start mt-3 pt-2 border-top">
+                        <a asp-action="Details" asp-controller="Employee" asp-route-id="@emp.Id" class="btn btn-sm btn-info text-white me-2">
+                            <i class="fas fa-file-alt"></i> Details
+                        </a>
+                        <a asp-action="Edit" asp-controller="Employee" asp-route-id="@emp.Id" class="btn btn-sm btn-primary me-2">
+                            <i class="fas fa-pen-to-square"></i> Edit
+                        </a>
+                        <a asp-action="Delete" asp-controller="Employee" asp-route-id="@emp.Id" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

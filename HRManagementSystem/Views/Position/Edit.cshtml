@@ -1,0 +1,72 @@
+﻿@model HRManagementSystem.ViewModels.AddPositionViewModel
+
+@{
+    ViewData["Title"] = "Edit Position";
+}
+
+<div class="container mt-5">
+
+    <h1 class="mb-4 text-primary">
+        <i class="fas fa-edit me-2"></i> Edit Position Details
+    </h1>
+
+    <hr class="mb-3" />
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-briefcase me-2"></i> Update Position Information
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+
+                    <form asp-action="Edit">
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+                        }
+
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="form-label fw-bold">
+                                Position Name:
+                            </label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g., Senior Developer" />
+                            <span asp-validation-for="Name" class="text-danger small mt-1"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Description" class="form-label fw-bold">
+                                Description:
+                            </label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Briefly describe the responsibilities and requirements of this position."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small mt-1"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" value="Save" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4 text-center">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i> Back to Position List
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
