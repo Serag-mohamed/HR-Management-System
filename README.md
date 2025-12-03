@@ -93,4 +93,3 @@
 - **Bootstrap**
 - **jQuery**
 - **Font Awesome**
-- **AutoMapper** (في حال استخدامه)
